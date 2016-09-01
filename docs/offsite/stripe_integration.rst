@@ -2,7 +2,7 @@
 Stripe Payment Integration
 ----------------------------------------
 
-`Stripe Payment Integration`_ is a service offered by 
+`Stripe Payment Integration`_ is a service offered by
 `Stripe Payment`_ to reduce the complexity of PCI compliance.
 
 .. note::
@@ -14,11 +14,11 @@ Refer to the :doc:`Stripe Payments  </gateways/stripe_payment>` Gateway for the 
 
 Here are the methods and attributes implemented on the ``StripeIntegration`` class:
 
-* ``__init__(self, options=None)``: The constructor method that configures the 
+* ``__init__(self, options=None)``: The constructor method that configures the
   stripe setting
 
 * ``get_urls(self)``: The method sets the url to which the token is sent
-  after the it is obtained from Stripe. This method is generally mapped 
+  after the it is obtained from Stripe. This method is generally mapped
   directly in the ``urls.py``.
 
   .. code::
@@ -35,8 +35,8 @@ Here are the methods and attributes implemented on the ``StripeIntegration`` cla
   successfully validating with the Stripe servers. Needs to be subclassed to include
   the token transaction logic.
 
-* ``generate_form(self)``: The method that generates and returns the form (present in 
-  ``billing.forms.stripe_form``) 
+* ``generate_form(self)``: The method that generates and returns the form (present in
+  ``billing.forms.stripe_form``)
 
 
 Example:
@@ -61,9 +61,7 @@ Example:
     In the views.py::
 
        stripe_obj = get_integration("stripe_example")
-       return render_to_response("some_template.html", 
-                               {"stripe_obj": stripe_obj},
-                                context_instance=RequestContext(request))
+       return render(request, "some_template.html", {"stripe_obj": stripe_obj})
 
    In the urls.py::
 
@@ -71,7 +69,7 @@ Example:
       urlpatterns += patterns('',
          (r'^stripe/', include(stripe_obj.urls)),
       )
-      
+
    In the template::
 
       {% load render_integration from billing_tags %}

@@ -2,7 +2,7 @@
 Braintree Payments Transparent Redirect
 ----------------------------------------
 
-`Braintree Payments Transparent Redirect`_ is a service offered by 
+`Braintree Payments Transparent Redirect`_ is a service offered by
 `Braintree Payments`_ to reduce the complexity of PCI compliance.
 
 .. note::
@@ -14,13 +14,13 @@ Refer to the :doc:`Braintree Payments Server to Server </gateways/braintree_paym
 
 Here are the methods and attributes implemented on the ``BraintreePaymentsIntegration`` class:
 
-* ``__init__(self, options=None)``: The constructor method that configures the 
+* ``__init__(self, options=None)``: The constructor method that configures the
   Braintree environment setting it either to production or sandbox mode based on
   the value of ``settings.MERCHANT_TEST_MODE``.
-* ``service_url(self)``: A property that provides the URL to which the Transparent 
+* ``service_url(self)``: A property that provides the URL to which the Transparent
   Redirect form is submitted.
 * ``get_urls(self)``: The method sets the url to which Braintree redirects
-  after the form submission is successful. This method is generally mapped 
+  after the form submission is successful. This method is generally mapped
   directly in the ``urls.py``.
 
   .. code::
@@ -43,9 +43,9 @@ Here are the methods and attributes implemented on the ``BraintreePaymentsIntegr
   fails, the ``braintree_notify_handler`` calls the ``braintree_failure_handler``
   which renders the ``billing/braintree_error.html`` with the ``response`` which
   is a standar braintree error object.
-* ``generate_tr_data(self)``: The method that calculates the `tr_data`_ to 
+* ``generate_tr_data(self)``: The method that calculates the `tr_data`_ to
   prevent a form from being tampered post-submission.
-* ``generate_form(self)``: The method that generates and returns the form (present in 
+* ``generate_form(self)``: The method that generates and returns the form (present in
   ``billing.forms.braintree_payments_form``) and populates the initial data
   with the ``self.fields`` (added through either the ``add_fields`` or ``add_field``
   methods) and ``tr_data``.
@@ -69,9 +69,7 @@ Example:
                                        RequestSite(request).domain)
                 }
        braintree_obj.add_fields(fields)
-       return render_to_response("some_template.html", 
-                                 {"bp": braintree_obj},
-                                 context_instance=RequestContext(request))
+       return render(request, "some_template.html", {"bp": braintree_obj})
 
    In the urls.py::
 
@@ -79,7 +77,7 @@ Example:
       urlpatterns += patterns('',
          (r'^braintree/', include(braintree.urls)),
       )
-      
+
    In the template::
 
       {% load render_integration from billing_tags %}

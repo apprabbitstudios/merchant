@@ -5,7 +5,7 @@ import logging
 
 from django.conf import settings
 from django.core.signing import TimestampSigner
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template.loader import render_to_string
 import lxml
 import requests
@@ -67,11 +67,11 @@ class GlobalIrisRealMpiIntegration(GlobalIrisBase, Integration):
                           object_hook=json_decoder_func)
 
     def redirect_to_acs_url(self, enrolled_response, term_url, merchant_data):
-        return render_to_response("billing/global_iris_real_mpi_redirect_to_acs.html",
-                                  {'enrolled_response': enrolled_response,
-                                   'term_url': term_url,
-                                   'merchant_data': self.encode_merchant_data(merchant_data),
-                                   })
+        return render(request, "billing/global_iris_real_mpi_redirect_to_acs.html", {
+            'enrolled_response': enrolled_response,
+            'term_url': term_url,
+            'merchant_data': self.encode_merchant_data(merchant_data),
+        })
 
     def parse_3d_secure_request(self, request):
         """

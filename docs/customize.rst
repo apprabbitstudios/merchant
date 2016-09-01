@@ -31,11 +31,11 @@ Here is the process:
 
     modified_bp_integration.py
 
-  and the Integration class name in that file as ``ModifiedBpIntegration``. 
+  and the Integration class name in that file as ``ModifiedBpIntegration``.
 
   .. note::
 
-     The naming of the file and class follows a simple rule. The filename is split on 
+     The naming of the file and class follows a simple rule. The filename is split on
      underscores and each element of the split sequence is capitalized to obtain the
      class name.
 
@@ -43,9 +43,8 @@ Here is the process:
 
     class ModifiedBpIntegration(BraintreePaymentsIntegration):
         def braintree_success_handler(self, request, response):
-           return render_to_response("my_new_success.html",
-	                             {"resp": response}, 
-				     context_instance=RequestContext(request))
+           return render(request, "my_new_success.html",
+	                             {"resp": response})
 
 * Then use the new integration in your code just as you would for a built-in integration::
 

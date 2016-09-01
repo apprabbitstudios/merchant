@@ -2,7 +2,7 @@
 Authorize.Net Direct Post Method
 ----------------------------------------
 
-`Authorize.Net Direct Post Method`_ is a service offered by 
+`Authorize.Net Direct Post Method`_ is a service offered by
 `Authorize.Net`_ to reduce the complexity of PCI compliance.
 
 Here are the following settings attributes that are required:
@@ -16,10 +16,10 @@ Here are the following settings attributes that are required:
 
 Here are the methods and attributes implemented on the ``AuthorizeNetDpmIntegration`` class:
 
-* ``__init__(self)``: The constructor that configures the Authorize.Net Integration 
-  environment setting it either to production or sandbox mode based on the value of 
+* ``__init__(self)``: The constructor that configures the Authorize.Net Integration
+  environment setting it either to production or sandbox mode based on the value of
   ``settings.MERCHANT_TEST_MODE``.
-* ``form_class(self)``: Returns the form class that is used to generate the form. 
+* ``form_class(self)``: Returns the form class that is used to generate the form.
    Defaults to ``billing.forms.authorize_net_forms.AuthorizeNetDPMForm``.
 * ``generate_form(self)``: Renders the form and generates some precomputed field
   values.
@@ -44,7 +44,7 @@ Here are the methods and attributes implemented on the ``AuthorizeNetDpmIntegrat
   snippet to Authorize.Net.
 * ``authorize_net_success_handler(self, request)``: The method that renders the
   `billing/authorize_net_success.html`.
-* ``authorize_net_failure_handler(self, request)``: The method that renders the 
+* ``authorize_net_failure_handler(self, request)``: The method that renders the
   `billing/authorize_net_failure.html`.
 
 
@@ -60,9 +60,7 @@ Example:
                  'x_recurring_bill': 'F',
                 }
        int_obj.add_fields(fields)
-       return render_to_response("some_template.html", 
-                                 {"adp": int_obj},
-                                 context_instance=RequestContext(request))
+       return render(request, "some_template.html", {"adp": int_obj})
 
    In the urls.py::
 
@@ -70,7 +68,7 @@ Example:
       urlpatterns += patterns('',
          (r'^authorize_net/', include(int_obj.urls)),
       )
-      
+
    In the template::
 
       {% load render_integration from billing_tags %}

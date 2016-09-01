@@ -5,8 +5,8 @@ Amazon Flexible Payment Service
 `Amazon FPS`_, is a service that allows for building very flexible payment systems.
 The service can be classified as a part Gateway and part Integration (offsite processor).
 This is because the customer is redirected to the Amazon site where he authorizes the
-payment and after this the customer is redirected back to the merchant site with a token 
-that is used by the merchant to transact with the customer. In plain offsite processors, 
+payment and after this the customer is redirected back to the merchant site with a token
+that is used by the merchant to transact with the customer. In plain offsite processors,
 the authorization and transaction take place in one shot almost simultaneously.
 
 Since the service isn't conventional (though very flexible), implementing FPS in merchant
@@ -42,13 +42,13 @@ Here are the methods and attributes implemented on the ``AmazonFpsIntegration`` 
   the integration is in ``test_mode`` or not.
 * ``link_url``: A property that returns the link which redirects the customer to the
   Amazon Payments site to authorize the transaction.
-* ``purchase(amount, options={})``: The method that charges a customer right away for 
+* ``purchase(amount, options={})``: The method that charges a customer right away for
   the amount ``amount`` after receiving a successful token from Amazon. The ``options``
   dictionary is generated from the ``return_url`` on successful redirect from the
-  Amazon payments page. This method returns a dictionary with two items, ``status`` 
-  representing the status and ``response`` representing the response as described 
+  Amazon payments page. This method returns a dictionary with two items, ``status``
+  representing the status and ``response`` representing the response as described
   by ``boto.fps.response.FPSResponse``.
-* ``authorize(amount, options={})``: Similar to the ``purchase`` method except that 
+* ``authorize(amount, options={})``: Similar to the ``purchase`` method except that
   it reserves the payment and doesn't not charge until a ``capture`` (settle) is not
   called. The response is the same as that of ``purchase``.
 * ``capture(amount, options={})``: Captures funds from an authorized transaction. The
@@ -59,14 +59,14 @@ Here are the methods and attributes implemented on the ``AmazonFpsIntegration`` 
   the Amazon IPN and saves into the ``AmazonFPSResponse`` model.
 * ``fps_return_url``: This method verifies the source of the return URL from Amazon
   and directs to the transaction.
-* ``transaction``: This is the main method that charges/authorizes funds from the 
-  customer. This method has to be subclassed to implement the logic for the 
+* ``transaction``: This is the main method that charges/authorizes funds from the
+  customer. This method has to be subclassed to implement the logic for the
   transaction on return from the Amazon Payments page.
 
 Example
 -------
 
-In any app that is present in the ``settings.INSTALLED_APPS``, subclass the 
+In any app that is present in the ``settings.INSTALLED_APPS``, subclass the
 ``AmazonFpsIntegration`` and implement the ``transaction`` method. The file
 should be available under ``<app>/integrations/<integration_name>_integration.py``::
 
@@ -76,7 +76,7 @@ should be available under ``<app>/integrations/<integration_name>_integration.py
 	# then the class name should be FpsIntegration
         def transaction(self, request):
             # Logic to decide if the user should
-	    # be charged immediately or funds 
+	    # be charged immediately or funds
 	    # authorized and then redirect the user
 	    # Below is an example:
 	    resp = self.purchase(10, {...})
@@ -119,9 +119,7 @@ In views.py::
         # this user (or use the user id as the callerReference) because
 	# amazon passes this callerReference back in the return URL.
 	amazon_fps.add_fields(fields)
-	return render_to_response("some_template.html", 
-	                          {"fps": amazon_fps},
-				  context_instance=RequestContext(request))
+	return render(request, "some_template.html", {"fps": amazon_fps})
 
 
 In some_template.html::
@@ -132,7 +130,7 @@ In some_template.html::
 The above template renders the following code::
 
     <p><a href="https://authorize.payments-sandbox.amazon.com/cobranded-ui/actions/start?callerKey=AKIAI74UIJQ37QS6XLTA&callerReference=5d37ac69-82ac-4bb1-98a4-18c3f9ff15f4&paymentReason=Merchant%20Test&pipelineName=SingleUse&returnURL=http%3A%2F%2Fmerchant.agiliq.com%2Ffps%2Ffps-return-url%2F&signature=wh9PSXAyKfPKizPL%2FRdrYbb24XsoE0efrtMGQBBSs3k%3D&signatureMethod=HmacSHA256&signatureVersion=2&transactionAmount=100"><img src="http://g-ecx.images-amazon.com/images/G/01/cba/b/p3.gif" alt="Amazon Payments" /></a>
-  
+
 
 .. _`Amazon FPS`: http://aws.amazon.com/fps/
 .. _`Amazon FPS Docs`: http://aws.amazon.com/documentation/fps/

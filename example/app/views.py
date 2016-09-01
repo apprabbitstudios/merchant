@@ -5,7 +5,7 @@ import decimal
 from bitcoinrpc.data import TransactionInfo
 
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render as render_template
 from django.template import RequestContext
 from django.http import HttpResponseRedirect  # , HttpResponse
 
@@ -29,7 +29,7 @@ BTC_TEST_ADDRESS = 'n2RL9NRRGvKNqovb14qacSfbz6zQBkzDbU'
 BTC_TEST_SUCCESSFUL_TXNS = [TransactionInfo(address=BTC_TEST_ADDRESS, amount=BTC_TEST_AMOUNT)]
 
 def render(request, template, template_vars={}):
-    return render_to_response(template, template_vars, RequestContext(request))
+    return render_template(request, template, template_vars)
 
 def index(request, gateway=None):
     return authorize(request)

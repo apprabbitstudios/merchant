@@ -68,9 +68,7 @@ In views.py::
   ...   "return_url": "http://example.com/paypal/",
   ...   "cancel_return": "http://example.com/paypal/unsuccessful/",
   ...   "amount": 100})
-  >>> return render_to_response("some_template.html",
-  ...                           {"obj": pay_pal},
-  ...                           context_instance=RequestContext(request))
+  >>> return render(request, "some_template.html", {"obj": pay_pal})
 
 You can also implement a shopping cart by adding multiple items with keys like ``item_name_1``,
 ``amount_1`` etc, for e.g::

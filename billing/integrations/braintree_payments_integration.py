@@ -2,12 +2,12 @@ from billing import Integration, IntegrationNotConfigured
 from django.conf import settings
 from django.views.decorators.http import require_GET
 from billing.signals import transaction_was_successful, transaction_was_unsuccessful
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 import braintree
 import urllib
 from django.core.urlresolvers import reverse
 from billing.forms.braintree_payments_forms import BraintreePaymentsForm
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 
 
@@ -56,18 +56,19 @@ class BraintreePaymentsIntegration(Integration):
         return self.braintree_failure_handler(request, result)
 
     def braintree_success_handler(self, request, response):
-        return render_to_response("billing/braintree_success.html",
-                                  {"response": response},
-                                  context_instance=RequestContext(request))
+        return render(request, "billing/braintree_success.html", {
+          "response": response
+        })
 
     def braintree_failure_handler(self, request, response):
-        return render_to_response("billing/braintree_failure.html",
-                                  {"response": response},
-                                  context_instance=RequestContext(request))
+        return render("billing/braintree_failure.html", {
+            "response": response
+        })
 
     def get_urls(self):
-        urlpatterns = patterns('',
-           url('^braintree-notify-handler/$', self.braintree_notify_handler, name="braintree_notify_handler"),)
+        urlpatterns = [
+           url('^braintree-notify-handler/$', self.braintree_notify_handler, name="braintree_notify_handler"),
+        ]
         return urlpatterns
 
     def add_fields(self, params):
